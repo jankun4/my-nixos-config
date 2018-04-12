@@ -31,6 +31,86 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     git wget vim gparted emacs gnumake gcc firefox glibc cmake
+    #KDE
+        # Password manager for KDE
+    kdeFrameworks.kwallet
+    kdeApplications.kwalletmanager
+    kwalletcli
+
+    # Allow automatic unlocking of kwallet if the same password. This seems to
+    # work without installing kwallet-pam.
+    #kwallet-pam
+
+    # ssh-add prompts a user for a passphrase using KDE. Not sure if it is used
+    # by anything? ssh-add just asks passphrase on the console.
+    #ksshaskpass
+
+    # Archives (e.g., tar.gz and zip)
+    ark
+
+    # GPG manager for KDE
+    kgpg
+    # This is needed for graphical dialogs used to enter GPG passphrases
+    pinentry_qt5
+
+    kdeplasma-addons
+
+    # Screenshots
+    kdeApplications.spectacle
+
+    # Bluetooth
+    bluedevil
+
+    # Text editor
+    kate
+
+    # Torrenting
+    ktorrent
+
+    # Connect desktop and phone
+    kdeconnect
+
+    # Drop-down terminal
+    yakuake
+
+    # Printing and scanning
+    kdeApplications.print-manager
+    simple-scan
+
+    # Document readers
+    okular
+
+    # Browsers
+    #firefox
+    chromium
+
+    # Email
+    #kmail
+    thunderbird
+
+    # Office suit
+    libreoffice
+    scribus
+
+    # Vector graphics
+    inkscape
+
+    # Photo/image editor
+    gwenview
+    gimp
+    #gimpPlugins.resynthesizer
+    #gimpPlugins.ufraw
+    digikam5
+
+    # Media player
+    vlc
+
+    # KDE apps
+    kdeFrameworks.kconfig
+    kdeFrameworks.kconfigwidgets
+    konsole
+    dolphin
+    kdeApplications.dolphin-plugins
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
