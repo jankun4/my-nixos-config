@@ -3,126 +3,98 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      (import "${home-manager}/nixos")
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "me-nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "pl";
-    defaultLocale = "pl_PL.UTF-8";
-  };
+  networking.hostName = "nixos"; # Define your hostname.
+  # Pick only one of the below networking options.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "pl_PL.UTF-8";
+  # console = {
+  #  font = "Lat2-Terminus16";
+  #  keyMap = "pl";
+  #  useXkbConfig = true; # use xkbOptions in tty.
+  # };
+
+  # Enable the X11 windowing system.
+  # services.xserver.enable = true;
+
+
+  
+
+  # Configure keymap in X11
+  # services.xserver.layout = "us";
+  # services.xserver.xkbOptions = {
+  #   "eurosign:e";
+  #   "caps:escape" # map caps to escape.
+  # };
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable sound.
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.jankun = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "sudo" ]; # Enable ‘sudo’ for the user.
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git wget vim gparted emacs gnumake gcc firefox glibc cmake
-    #KDE
-        # Password manager for KDE
-    kdeFrameworks.kwallet
-    kdeApplications.kwalletmanager
-    kwalletcli
-
-    # Allow automatic unlocking of kwallet if the same password. This seems to
-    # work without installing kwallet-pam.
-    #kwallet-pam
-
-    # ssh-add prompts a user for a passphrase using KDE. Not sure if it is used
-    # by anything? ssh-add just asks passphrase on the console.
-    #ksshaskpass
-
-    # Archives (e.g., tar.gz and zip)
-    ark
-
-    # GPG manager for KDE
-    kgpg
-    # This is needed for graphical dialogs used to enter GPG passphrases
-    pinentry_qt5
-
-    kdeplasma-addons
-
-    # Screenshots
-    kdeApplications.spectacle
-
-    # Bluetooth
-    bluedevil
-
-    # Text editor
-    kate
-
-    # Torrenting
-    ktorrent
-
-    # Connect desktop and phone
-    kdeconnect
-
-    # Drop-down terminal
-    yakuake
-
-    # Printing and scanning
-    kdeApplications.print-manager
-    simple-scan
-
-    # Document readers
-    okular
-
-    # Browsers
-    #firefox
-    chromium
-
-    # Email
-    #kmail
-    thunderbird
-
-    # Office suit
-    libreoffice
-    scribus
-
-    # Vector graphics
-    inkscape
-
-    # Photo/image editor
-    gwenview
-    gimp
-    #gimpPlugins.resynthesizer
-    #gimpPlugins.ufraw
-    digikam5
-
-    # Media player
-    vlc
-
-    # KDE apps
-    kdeFrameworks.kconfig
-    kdeFrameworks.kconfigwidgets
-    konsole
-    dolphin
-    kdeApplications.dolphin-plugins
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    curl
+    git
+    gh
+    tmux
+    lynx
+    emacs-nox
+    rnix-lsp
+    silver-searcher
+    tree
+    ranger
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.bash.enableCompletion = true;
   programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -130,39 +102,39 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "22.05"; # Did you read the comment?
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "pl";
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.driSupport32Bit = true;
-  #services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.me = {
-    isNormalUser = true;
-    home = "/home/me";
-    extraGroups = [ "wheel" "networkmanager" ];
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+    useSandbox = false;
   };
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "18.03"; # Did you read the comment?
-
-  nixpkgs.config.allowUnfree = true;
+  
+  boot.loader.grub.device = "/dev/sda";
+  boot.initrd.checkJournalingFS = false;
+  
+  programs.bash.shellAliases = {
+    nsu = "NIXOS_INSTALL_BOOTLOADER=1 sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER nixos-rebuild switch --upgrade";
+  };
+  services.postgresql.enable = true;
+  services.postgresql.package = pkgs.postgresql_11;
+  
+  environment.sessionVariables = {
+    EDITOR = "vim";
+  };
+  home-manager.users.jankun = {
+    programs.vim = {
+      enable = true;
+      plugins = with pkgs.vimPlugins; [vim-elixir vim-nix];
+    };
+  };
 }
+
