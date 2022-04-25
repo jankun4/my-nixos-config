@@ -21,6 +21,15 @@
   ];
 
   hardware.opengl.enable = true;
+
+
+  home-manager.users.jankun.gtk = {
+    enable = true;
+    theme = {
+      name = "Nordic";
+      package = pkgs.nordic;
+    };
+  };
 }
 
 
