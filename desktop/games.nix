@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     lutris
     discord
+    steam
   ];
 }
 
