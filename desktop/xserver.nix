@@ -31,6 +31,7 @@
       package = pkgs.nordic;
     };
   };
+  programs.plotinus.enable = true;
 }
 
 
