@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 {
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.enable = true; 
+  services.xserver.displayManager.defaultSession = "gnome";
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "jankun";
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.layout = "pl";
   sound.enable = true;
