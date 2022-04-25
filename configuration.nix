@@ -9,6 +9,7 @@ in
       (import "${home-manager}/nixos")
       ./desktop/xserver.nix
       ./desktop/nvidia.nix
+      ./desktop/64bit.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
