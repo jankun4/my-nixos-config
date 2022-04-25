@@ -35,6 +35,7 @@ in
     git
     gh
     tmux
+    htop
     lynx
     emacs-nox
     rnix-lsp
