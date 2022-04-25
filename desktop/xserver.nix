@@ -15,6 +15,7 @@
     firefox
     gnomeExtensions.appindicator
     gnome.gnome-tweaks
+    plotinus
   ];
 
   services.udev.packages = with pkgs; [
