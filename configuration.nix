@@ -28,6 +28,7 @@ in
     extraGroups = [ "wheel" "sudo" "docker"]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$KrwiYyPQDQC63BTb$I1kkwVvmDsT.yRqkMLR20i6GYdKAql0qFcrNGcGOmHlI7zU9iZdF21pDRw6CHS1V8w37IdrNf7pGO7.ooJ6rA.";
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9Ki+f7VsnlcohDCxOgvMi06KnABHymPqJZDiTmnU6H2Tp2UxMma6/wx+t9PkX6z+QkK+ReyAi8OvEJLxWmdRHHoyAVCNzxrs+yNDij7ByUdRCxKz2TCOwei3T8338nslLSIdGVgb9PshZQOcxO6Y1wPMpyPY9tTSEnWpUqv0k7bDOZXl/dW7K6bWGI1IlbM2JVW+i8YKGdQoZdRxbCW/X1DdrWT+QeoMvkhw36/RJ28DQKOirGdxtPpuWukRyFmahG5d+BX0vNY2x2JR0cwpAtFneKqo0qjAClC6N8KZt2nOUlUE/9zrmnu9ga/6IZc5nkrdKQzfIct6FCb8hAWN0o0UdlYN9PcoXgU32iW+6VLdqH7babKvGUImJqc8TvvThwpnEom3MrTXOU0tB1Ylg1fwJqDo1lgEDzwydtcLOGZv86gBpyrZ8kJ0LnfJ2I25jc+mK3nNFNTCYn4GReWSCl31AlFmxua4L7GSziJrZL9tueTWK7bRAtVJtAHOULnE= michaljankun@Michas-MacBook-Air.local" ];
+    shell = pkgs.zsh;
   };
 
   environment.systemPackages = with pkgs; [
@@ -46,6 +47,7 @@ in
     ranger
     docker
     docker-compose
+    oh-my-zsh
   ];
 
   programs.mtr.enable = true;
@@ -69,9 +71,6 @@ in
   boot.loader.grub.device = "/dev/sda";
   boot.initrd.checkJournalingFS = false;
   
-  programs.bash.shellAliases = {
-    nsu = "NIXOS_INSTALL_BOOTLOADER=1 sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER nixos-rebuild switch --upgrade";
-  };
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql_11;
   
@@ -85,7 +84,29 @@ in
     };
   };
 
+  programs.zsh = {
+    enable = true;
+    shellAliases.nsu = "NIXOS_INSTALL_BOOTLOADER=1 sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER nixos-rebuild switch --upgrade";
+    ohMyZsh = {
+      enable = true;
+      plugins = [ 
+        "git" 
+        "python" 
+        "man"
+        "ag"
+        "aliases"
+        "ansible"
+        "sudo"
+        "history"
+      ];
+      customPkgs = [
+        pkgs.zsh-autocomplete
+      ];
+     theme = "awesomepanda";
+    };
+  };
   virtualisation.docker.enable = true;
+
 }
 
 
