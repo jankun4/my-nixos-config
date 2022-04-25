@@ -10,6 +10,7 @@ in
       ./desktop/xserver.nix
       ./desktop/nvidia.nix
       ./desktop/64bit.nix
+      ./desktop/games.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -48,6 +49,8 @@ in
     docker
     docker-compose
     oh-my-zsh
+    python310
+    openssl
   ];
 
   programs.mtr.enable = true;
@@ -86,6 +89,8 @@ in
 
   programs.zsh = {
     enable = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
     shellAliases.nsu = "NIXOS_INSTALL_BOOTLOADER=1 sudo --preserve-env=NIXOS_INSTALL_BOOTLOADER nixos-rebuild switch --upgrade";
     ohMyZsh = {
       enable = true;
