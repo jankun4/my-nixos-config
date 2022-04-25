@@ -7,6 +7,7 @@
   services.xserver.displayManager.autoLogin.user = "jankun";
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.layout = "pl";
+  services.xserver.libinput.enable = true;
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
