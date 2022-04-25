@@ -14,6 +14,7 @@
   environment.systemPackages = with pkgs; [
     firefox
     gnomeExtensions.appindicator
+    gnome.gnome-tweaks
   ];
 
   services.udev.packages = with pkgs; [
