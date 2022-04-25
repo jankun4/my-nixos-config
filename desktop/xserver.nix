@@ -22,7 +22,6 @@
     gnome3.gnome-settings-daemon
     gnome3.adwaita-icon-theme
     gnome.zenity
-    discord
   ];
 
   hardware.opengl.enable = true;
