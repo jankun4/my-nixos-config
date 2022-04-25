@@ -7,7 +7,8 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       (import "${home-manager}/nixos")
-      ./desktop/configuration.nix
+      ./desktop/xserver.nix
+      ./desktop/nvidia.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
