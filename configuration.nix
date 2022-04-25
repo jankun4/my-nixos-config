@@ -38,13 +38,13 @@ in
   # };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
   
 
   # Configure keymap in X11
-  # services.xserver.layout = "us";
+  services.xserver.layout = "pl";
   # services.xserver.xkbOptions = {
   #   "eurosign:e";
   #   "caps:escape" # map caps to escape.
@@ -54,16 +54,18 @@ in
   # services.printing.enable = true;
 
   # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.mutableUsers = false;
   users.users.jankun = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "sudo" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "sudo" "docker"]; # Enable ‘sudo’ for the user.
+    hashedPassword = "$6$KrwiYyPQDQC63BTb$I1kkwVvmDsT.yRqkMLR20i6GYdKAql0qFcrNGcGOmHlI7zU9iZdF21pDRw6CHS1V8w37IdrNf7pGO7.ooJ6rA.";
   };
 
   # List packages installed in system profile. To search, run:
@@ -81,6 +83,14 @@ in
     silver-searcher
     tree
     ranger
+    firefox
+    gnomeExtensions.appindicator
+    docker
+    docker-compose
+  ];
+
+  services.udev.packages = with pkgs; [
+    gnome3.gnome-settings-daemon
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -136,5 +146,13 @@ in
       plugins = with pkgs.vimPlugins; [vim-elixir vim-nix];
     };
   };
+
+
+  nixpkgs.config.allowUnfree = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  virtualisation.docker.enable = true;
 }
+
 
