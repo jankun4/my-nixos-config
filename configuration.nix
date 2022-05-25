@@ -51,6 +51,7 @@ in
     oh-my-zsh
     python310
     openssl
+    protobuf
   ];
 
   programs.mtr.enable = true;

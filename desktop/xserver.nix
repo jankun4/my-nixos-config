@@ -8,14 +8,18 @@
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.layout = "pl";
   services.xserver.libinput.enable = true;
+  
+  #services.xrdp.enable = true;
+  #services.xrdp.defaultWindowManager = "gnome-wayland";
+  # networking.firewall.allowedTCPPorts = [ 3389 ];
+
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
   environment.systemPackages = with pkgs; [
     firefox
     gnomeExtensions.appindicator
-    gnome.gnome-tweaks
-    plotinus
+    gnome.gnome-remote-desktop
   ];
 
   services.udev.packages = with pkgs; [
@@ -26,15 +30,6 @@
 
   hardware.opengl.enable = true;
 
-
-  home-manager.users.jankun.gtk = {
-    enable = true;
-    theme = {
-      name = "Nordic";
-      package = pkgs.nordic;
-    };
-  };
-  programs.plotinus.enable = true;
 }
 
 

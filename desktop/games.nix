@@ -3,8 +3,20 @@
   environment.systemPackages = with pkgs; [
     lutris
     discord
-    steam
+    (steam.override {
+      extraLibraries = pkgs: with pkgs; [
+        libxkbcommon
+        mesa
+        wayland
+
+      ];
+      extraPkgs = pkgs: with pkgs; [
+        libgdiplus
+      ];
+    })
+    gnome3.adwaita-icon-theme
   ];
+  programs.steam.enable = true;
 }
 
 
