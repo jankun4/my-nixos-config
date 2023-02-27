@@ -11,13 +11,17 @@ in
       ./desktop/nvidia.nix
       ./desktop/64bit.nix
       ./desktop/games.nix
+      (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ];
+
+  services.vscode-server.enable = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.firewall.checkReversePath = "loose";
 
   time.timeZone = "Europe/Warsaw";
 
@@ -52,6 +56,7 @@ in
     python310
     openssl
     protobuf
+    tailscale
   ];
 
   programs.mtr.enable = true;
@@ -65,16 +70,23 @@ in
   system.stateVersion = "22.05"; # Did you read the comment?
 
   nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-    useSandbox = false;
-  };
+        package = pkgs.nixFlakes;
+            extraOptions = ''
+                  experimental-features = nix-command flakes
+                      '';
+                          settings.sandbox = false;
+                              settings.substituters = [
+                                    "https://cache.iog.io" "https://iohk.cachix.org" "https://cache.nixos.org/"
+                                        ];
+                                            settings.trusted-public-keys = [
+                                                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+                                                      ];
+                                                        };
   
   boot.loader.grub.device = "/dev/sda";
   boot.initrd.checkJournalingFS = false;
-  
+  services.tailscale.enable = true;
+  services.logrotate.checkConfig = false;
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql_11;
   
@@ -86,6 +98,7 @@ in
       enable = true;
       plugins = with pkgs.vimPlugins; [vim-elixir vim-nix];
     };
+    home.stateVersion = "22.05";
   };
 
   programs.zsh = {
@@ -112,7 +125,6 @@ in
     };
   };
   virtualisation.docker.enable = true;
-
 }
 
 
