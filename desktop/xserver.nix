@@ -8,7 +8,7 @@
   services.xserver.desktopManager.gnome.enable = true;
   services.xserver.layout = "pl";
   services.xserver.libinput.enable = true;
-  
+  #services.xserver.desktopManager.xfce.enable = true;  
   #services.xrdp.enable = true;
   #services.xrdp.defaultWindowManager = "gnome-wayland";
   # networking.firewall.allowedTCPPorts = [ 3389 ];

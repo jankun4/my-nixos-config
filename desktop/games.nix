@@ -3,6 +3,8 @@
   environment.systemPackages = with pkgs; [
     lutris
     discord
+    steamcmd
+    steam-tui
     (steam.override {
       extraLibraries = pkgs: with pkgs; [
         libxkbcommon
@@ -11,6 +13,8 @@
 
       ];
       extraPkgs = pkgs: with pkgs; [
+        bumblebee
+        glxinfo
         libgdiplus
       ];
     })

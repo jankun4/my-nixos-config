@@ -30,7 +30,7 @@ in
   users.mutableUsers = false;
   users.users.jankun = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "sudo" "docker"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "networkmanager" "wheel" "sudo" "docker"]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$KrwiYyPQDQC63BTb$I1kkwVvmDsT.yRqkMLR20i6GYdKAql0qFcrNGcGOmHlI7zU9iZdF21pDRw6CHS1V8w37IdrNf7pGO7.ooJ6rA.";
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9Ki+f7VsnlcohDCxOgvMi06KnABHymPqJZDiTmnU6H2Tp2UxMma6/wx+t9PkX6z+QkK+ReyAi8OvEJLxWmdRHHoyAVCNzxrs+yNDij7ByUdRCxKz2TCOwei3T8338nslLSIdGVgb9PshZQOcxO6Y1wPMpyPY9tTSEnWpUqv0k7bDOZXl/dW7K6bWGI1IlbM2JVW+i8YKGdQoZdRxbCW/X1DdrWT+QeoMvkhw36/RJ28DQKOirGdxtPpuWukRyFmahG5d+BX0vNY2x2JR0cwpAtFneKqo0qjAClC6N8KZt2nOUlUE/9zrmnu9ga/6IZc5nkrdKQzfIct6FCb8hAWN0o0UdlYN9PcoXgU32iW+6VLdqH7babKvGUImJqc8TvvThwpnEom3MrTXOU0tB1Ylg1fwJqDo1lgEDzwydtcLOGZv86gBpyrZ8kJ0LnfJ2I25jc+mK3nNFNTCYn4GReWSCl31AlFmxua4L7GSziJrZL9tueTWK7bRAtVJtAHOULnE= michaljankun@Michas-MacBook-Air.local" ];
     shell = pkgs.zsh;
