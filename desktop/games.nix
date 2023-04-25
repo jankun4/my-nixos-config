@@ -19,6 +19,10 @@
       ];
     })
     gnome3.adwaita-icon-theme
+    winetricks
+    wine64
+    wineWowPackages.full
+
   ];
   programs.steam.enable = true;
 }
